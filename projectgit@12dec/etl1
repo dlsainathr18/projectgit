@@ -1,0 +1,39 @@
+SELECT DISTINCT step.step_nm, step_sts_cd, job_sts_cd
+FROM abc_full.step, abc_full.cyc, abc_full.job
+WHERE     step.step_sk = job.step_sk
+      AND step.cyc_sk = cyc.cyc_sk
+      AND cyc.cyc_nm = 'AML_DAILY'
+      AND step.step_nm IN
+               (SELECT target_ods_table_name
+                FROM abc_full.src_data_control_table
+                WHERE src_app_name = 'AML'
+                      AND target_schema_name = 'SBM_STG_AML'
+                      AND del_flg = 'N')
+      AND (job.job_sts_cd NOT IN ('SUCCEEDED', 'SKIPPED')
+           OR step.step_sts_cd NOT IN ('SUCCEEDED', 'SKIPPED'));
+SELECT DISTINCT step.step_nm, step_sts_cd, job_sts_cd
+FROM abc_full.step, abc_full.cyc, abc_full.job
+WHERE     step.step_sk = job.step_sk
+      AND step.cyc_sk = cyc.cyc_sk
+      AND cyc.cyc_nm = 'AML_DAILY'
+      AND step.step_nm IN
+               (SELECT table_name
+                FROM abc_full.edw_tab_list
+                WHERE src_app_name = 'AML'
+                      AND table_type IN ('FACT', 'XREF', 'RLTN','RI'))
+      AND (job.job_sts_cd NOT IN ('SUCCEEDED', 'SKIPPED')
+           OR step.step_sts_cd NOT IN ('SUCCEEDED', 'SKIPPED'));
+SELECT DISTINCT step.step_nm, step_sts_cd, job_sts_cd
+FROM abc_full.step, abc_full.cyc, abc_full.job
+WHERE     step.step_sk = job.step_sk
+      AND step.cyc_sk = cyc.cyc_sk
+      AND cyc.cyc_nm = 'AML_DAILY'
+      AND step.step_nm IN
+               (SELECT table_name
+                FROM abc_full.edw_tab_list
+                WHERE src_app_name = 'AML'
+                      AND table_type IN ('DIM', 'PROFILE'))
+      AND (job.job_sts_cd NOT IN ('SUCCEEDED', 'SKIPPED')
+           OR step.step_sts_cd NOT IN ('SUCCEEDED', 'SKIPPED'));
+
+
