@@ -7,5 +7,8 @@ adding sixth line in remote
 adding seventh line to see the difference between working area and  staging area
 adding eighth line in feature-1
 adding ninth line to feature-2
+<<<<<<< HEAD
 adding tenth line to undo from remote
 adding eleventh line for git tagging
+=======
+>>>>>>> 01d7c5f8595f6d47878b153322188c5442aa57fe
